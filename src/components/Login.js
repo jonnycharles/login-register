@@ -9,21 +9,37 @@ import { Component } from 'react';
 class LoginPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { 'banana': 'Rama'}
+    this.state = {
+      'banana': 'Rama',
+      'finished': false
+    }
   }
 
+  goToHomePage = () => {
+    const newState = {...this.state, 'finished': !this.state.finished}
+    this.setState(newState);
+  }
+
+
+
   render() {
+    const finished = this.state.finished;
     return(
-      <div>
-        <h1>Login</h1>
-        <form>
-          <input placeholder="Email" type="email"/>
-          <br />
-          <input placeholder="Password" type="password"/>
-          <br />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+        <div>
+          <h1>Login</h1>
+          { (!finished) &&
+          <form>
+            <input placeholder="Email" type="email"/>
+            <br />
+            <input placeholder="Password" type="password"/>
+            <br />
+            <button type="submit" onClick={this.goToHomePage}>Submit</button>
+          </form>
+          }
+          { finished &&
+            <div>You did it!</div>
+          }
+        </div>
     );
   }
 }
