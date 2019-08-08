@@ -11,15 +11,26 @@ class LoginPage extends Component {
     super(props);
     this.state = {
       'banana': 'Rama',
+      'email': '',
+      'password': '',
       'finished': false
     }
   }
 
   goToHomePage = () => {
-    const newState = {...this.state, 'finished': !this.state.finished}
+    const newState = {...this.state, 'finished': !this.state.finished};
     this.setState(newState);
   }
 
+  setEmail = (event) => {
+    const newState = {...this.state, 'email': event.target.value};
+    this.setState(newState);
+  }
+
+  setPassword = (event) => {
+    const newState = {...this.state, 'password': event.target.value};
+    this.setState(newState);
+  }
 
 
   render() {
@@ -29,15 +40,17 @@ class LoginPage extends Component {
           <h1>Login</h1>
           { (!finished) &&
           <form>
-            <input placeholder="Email" type="email"/>
+            <input placeholder="Email" type="email" onChange={this.setEmail} />
             <br />
-            <input placeholder="Password" type="password"/>
+            <input placeholder="Password" type="password" onChange={this.setPassword} />
             <br />
             <button type="submit" onClick={this.goToHomePage}>Submit</button>
           </form>
           }
           { finished &&
-            <div>You did it!</div>
+            <div>
+                You did it: {this.state.email} and {this.state.password}
+            </div>
           }
         </div>
     );
