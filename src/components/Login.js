@@ -13,7 +13,10 @@ class LoginPage extends Component {
       'banana': 'Rama',
       'email': '',
       'password': '',
-      'finished': false
+      'finished': false,
+      'emailAble': false,
+      'passwordAble': true,
+      'submitAble': false
     }
   }
 
@@ -23,7 +26,13 @@ class LoginPage extends Component {
   }
 
   setEmail = (event) => {
-    const newState = {...this.state, 'email': event.target.value};
+    const EMAIL_VALIDATION = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const ableValue = EMAIL_VALIDATION.test(event.target.value) ? true : false;
+    const submitAble = ableValue ? true : false;
+    const newState = {...this.state,
+                      'email': event.target.value,
+                      'emailAble': ableValue,
+                      'submitAble': submitAble};
     this.setState(newState);
   }
 
@@ -31,6 +40,18 @@ class LoginPage extends Component {
     const newState = {...this.state, 'password': event.target.value};
     this.setState(newState);
   }
+
+  clearState = () => {
+    const newState = {...this.state,
+                      'email': '',
+                      'password': '',
+                      'finished': false,
+                      'emailAble': false,
+                      'submitAble': false};
+    this.setState(newState);
+  }
+
+
 
 
   render() {
@@ -44,12 +65,13 @@ class LoginPage extends Component {
             <br />
             <input placeholder="Password" type="password" onChange={this.setPassword} />
             <br />
-            <button type="submit" onClick={this.goToHomePage}>Submit</button>
+            <button type="submit" disabled={!this.state.submitAble} onClick={this.goToHomePage}>Submit</button>
           </form>
           }
           { finished &&
             <div>
                 You did it: {this.state.email} and {this.state.password}
+                <button onClick={this.clearState}>Clear State</button>
             </div>
           }
         </div>
